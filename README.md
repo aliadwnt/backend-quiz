@@ -1,3 +1,7 @@
+Nama    : Alia Dewanto
+NIM     : V3922004
+Kelas   : TI D
+
 # Kuis Mata Kuliah Pemrogaman Backend
 
 Silakan Dikerjakan Masing - masing individu.

@@ -9,12 +9,44 @@ class TodosController extends BaseController {
     }
 
     public function getTodos(){
-        //Buat Get Disini
+        $data['todos'] = $this->todos->findAll();
+        return view('todo_index', $data);
     }
 
     public function createTodo(){
-        //Buat Create Disini
+        if ($this->request->getMethod() === 'post') {
+            $validationRules = [
+                'todo' => 'required',
+                'deadline' => 'required',
+            ];
+
+            if ($this->validate($validationRules)) {
+                $data = [
+                    'todo' => $this->request->getPost('todo'),
+                    'deadline' => $this->request->getPost('deadline'),
+                    'status' => 'Belum Selesai',
+                ];
+
+                $this->todos->insert($data);
+                return redirect()->to('/');
+            } else {
+                return view('todo_index');
+            }
+        }
+
+        return view('todo_index');
     }
 
-    //Buat Fungsi Lainnya
+    public function deleteTodo($id){
+        $todo = $this->todos->find($id);
+    
+        if ($todo) {
+            $this->todos->delete($id);
+    
+            return redirect()->to('/')->with('status', 'Todo deleted successfully');
+        } else {
+            return redirect()->to('/')->with('error', 'Todo not found');
+        }
+    }
+    
 }
